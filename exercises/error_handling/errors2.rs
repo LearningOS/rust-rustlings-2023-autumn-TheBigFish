@@ -19,7 +19,7 @@
 // Execute `rustlings hint errors2` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+// 
 
 use std::num::ParseIntError;
 
@@ -28,6 +28,21 @@ pub fn total_cost(item_quantity: &str) -> Result<i32, ParseIntError> {
     let cost_per_item = 5;
     let qty = item_quantity.parse::<i32>();
 
+    // 1. 使用 match， 返回错误处理后的 Result    
+    // match qty {
+    //     Ok(quantity) => Ok(quantity * cost_per_item + processing_fee),
+    //     Err(error) => Err(error),
+    // }
+
+    // 2. 或者新建一个 Result 类型 qty, 返回 qty, 与 1 中相同
+    // let qty = match qty {
+    //     Ok(quantity) => Ok(quantity * cost_per_item + processing_fee),
+    //     Err(error) => Err(error),
+    // };
+    // qty
+    
+    // 3. 使用 ? 运算符，将错误返回，处理 qty 后用 Ok() 包装后返回
+    let qty = item_quantity.parse::<i32>()?;
     Ok(qty * cost_per_item + processing_fee)
 }
 
