@@ -10,6 +10,7 @@
 //
 
 use std::sync::Arc;
+use std::sync::Mutex;
 use std::thread;
 use std::time::Duration;
 
@@ -18,7 +19,7 @@ struct JobStatus {
 }
 
 fn main() {
-    let status = Arc::new(Mutex::newa(JobStatus { jobs_completed: 0 }));
+    let status = Arc::new(Mutex::new(JobStatus { jobs_completed: 0 }));
     let mut handles = vec![];
     for _ in 0..10 {
         let status_shared = Arc::clone(&status);
@@ -30,6 +31,7 @@ fn main() {
         handles.push(handle);
     }
     for handle in handles {
+        let status_shared = Arc::clone(&status);
         handle.join().unwrap();
         // TODO: Print the value of the JobStatus.jobs_completed. Did you notice
         // anything interesting in the output? Do you have to 'join' on all the
